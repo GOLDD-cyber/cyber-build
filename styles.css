@@ -1,0 +1,196 @@
+/*
+  CSS сайта NEON FORGE — тёмно-зелёный киберпанк-стиль.
+  Идея: чёрно-зелёный фон, неоновый зелёный акцент со свечением,
+  "технические" шрифты и плавные анимации.
+*/
+
+:root {
+  --bg: #04140d;          /* почти чёрный с зеленцой — основной фон */
+  --bg-alt: #061c12;      /* чуть светлее — для чередующихся секций */
+  --panel: #0a2418;       /* фон карточек */
+  --neon: #00ff9c;        /* основной неоновый зелёный */
+  --neon-dim: #0bbf78;    /* приглушённый зелёный */
+  --text: #d7ffe9;        /* светло-зелёный текст */
+  --muted: #6f9c87;       /* приглушённый текст */
+  --line: #143a26;        /* цвет тонких линий/рамок */
+  --radius: 14px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Rajdhani', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden; /* убираем горизонтальную прокрутку */
+}
+
+h1, h2, h3, h4 { font-family: 'Orbitron', sans-serif; line-height: 1.2; }
+
+.container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+
+/* Неоновое свечение текста — используем на акцентных словах */
+.glow {
+  color: var(--neon);
+  text-shadow: 0 0 8px rgba(0,255,156,0.6), 0 0 24px rgba(0,255,156,0.3);
+}
+
+/* ---------- ШАПКА ---------- */
+.header {
+  position: sticky; top: 0; z-index: 20;
+  background: rgba(4, 20, 13, 0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0,255,156,0.15);
+}
+.header__inner { display: flex; justify-content: space-between; align-items: center; height: 70px; }
+.logo {
+  font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 20px;
+  color: var(--neon); text-decoration: none;
+  text-shadow: 0 0 10px rgba(0,255,156,0.5);
+}
+.nav a {
+  margin-left: 26px; color: var(--text); text-decoration: none;
+  font-weight: 600; font-size: 15px; letter-spacing: 0.5px;
+  transition: color 0.2s, text-shadow 0.2s;
+}
+.nav a:hover { color: var(--neon); text-shadow: 0 0 10px rgba(0,255,156,0.6); }
+
+/* ---------- ГЛАВНЫЙ ЭКРАН ---------- */
+.hero {
+  position: relative; min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; overflow: hidden;
+}
+/* canvas с matrix-дождём — на весь экран, за текстом */
+.hero__canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.45; }
+.hero__inner { position: relative; z-index: 2; padding: 80px 24px; }
+.hero__tag {
+  color: var(--neon); font-family: 'Orbitron', sans-serif;
+  letter-spacing: 3px; font-size: 14px; margin-bottom: 18px;
+}
+.hero__title { font-size: clamp(38px, 7vw, 82px); font-weight: 900; letter-spacing: 2px; }
+.hero__subtitle { max-width: 620px; margin: 24px auto 36px; font-size: 19px; color: var(--muted); }
+.hero__buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+/* подсказка "листай вниз" с лёгкой пульсацией */
+.hero__scroll {
+  position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+  color: var(--neon-dim); font-size: 14px; letter-spacing: 2px; z-index: 2;
+  animation: bounce 2s infinite;
+}
+@keyframes bounce { 0%,100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, 8px); } }
+
+/* ---------- КНОПКИ ---------- */
+.btn {
+  display: inline-block; padding: 14px 30px; border-radius: 8px;
+  font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 14px;
+  letter-spacing: 1px; text-transform: uppercase; text-decoration: none;
+  cursor: pointer; border: 1px solid var(--neon); transition: all 0.2s;
+}
+.btn--primary { background: var(--neon); color: #032015; }
+.btn--primary:hover { box-shadow: 0 0 20px rgba(0,255,156,0.6); transform: translateY(-2px); }
+.btn--ghost { background: transparent; color: var(--neon); }
+.btn--ghost:hover { background: rgba(0,255,156,0.1); box-shadow: 0 0 16px rgba(0,255,156,0.4); }
+.btn--small { padding: 9px 18px; font-size: 12px; width: 100%; margin-top: 12px; }
+
+/* ---------- СЕКЦИИ ---------- */
+.section { padding: 100px 0; }
+.section--alt { background: var(--bg-alt); }
+.section__title { font-size: clamp(30px, 5vw, 48px); text-align: center; font-weight: 700; }
+.section__subtitle { text-align: center; color: var(--muted); margin: 14px auto 56px; max-width: 600px; font-size: 18px; }
+
+/* ---------- СБОРКИ ---------- */
+.builds { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; align-items: start; }
+.build {
+  position: relative; background: var(--panel);
+  border: 1px solid rgba(0,255,156,0.2); border-radius: var(--radius);
+  padding: 36px 28px; transition: transform 0.25s, box-shadow 0.25s;
+}
+.build:hover { transform: translateY(-8px); box-shadow: 0 0 30px rgba(0,255,156,0.25); border-color: var(--neon); }
+.build--featured { border-color: var(--neon); box-shadow: 0 0 30px rgba(0,255,156,0.2); }
+.build__badge {
+  position: absolute; top: -12px; left: 28px;
+  background: var(--neon); color: #032015; font-family: 'Orbitron', sans-serif;
+  font-weight: 700; font-size: 12px; padding: 4px 14px; border-radius: 6px; letter-spacing: 1px;
+}
+.build__name { font-size: 28px; color: var(--neon); margin-top: 8px; }
+.build__for { color: var(--muted); margin-bottom: 22px; }
+.build__specs { list-style: none; margin-bottom: 24px; }
+.build__specs li {
+  display: flex; justify-content: space-between;
+  padding: 10px 0; border-bottom: 1px solid rgba(0,255,156,0.12); font-size: 16px;
+}
+.build__specs li span { color: var(--muted); font-family: 'Orbitron', sans-serif; font-size: 12px; }
+.build__price { font-family: 'Orbitron', sans-serif; font-size: 30px; font-weight: 700; color: var(--text); margin-bottom: 18px; }
+
+/* ---------- КОМПОНЕНТЫ ---------- */
+.components { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.component {
+  background: var(--panel); border: 1px solid rgba(0,255,156,0.18);
+  border-radius: var(--radius); padding: 24px 20px; text-align: center; transition: all 0.25s;
+}
+.component:hover { transform: translateY(-6px); border-color: var(--neon); box-shadow: 0 0 22px rgba(0,255,156,0.2); }
+.component__icon { font-size: 38px; margin-bottom: 12px; }
+.component h4 { color: var(--neon); font-size: 17px; margin-bottom: 4px; }
+.component p { color: var(--muted); font-size: 14px; margin-bottom: 10px; }
+.component__price { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 18px; }
+
+/* ---------- ОТЗЫВЫ ---------- */
+.reviews { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.review { background: var(--panel); border: 1px solid rgba(0,255,156,0.18); border-radius: var(--radius); padding: 30px 26px; }
+.review__text { font-size: 17px; margin-bottom: 20px; }
+.review__stars { color: var(--neon); letter-spacing: 2px; margin-right: 10px; }
+.review__author { color: var(--muted); font-size: 15px; }
+.review__author strong { color: var(--text); }
+
+/* ---------- ФОРМА ---------- */
+.form { max-width: 660px; margin: 0 auto; }
+.form__row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.form__field { display: block; margin-bottom: 18px; }
+.form__field span { display: block; margin-bottom: 8px; font-weight: 600; color: var(--text); }
+.form__field input, .form__field textarea, .form__field select {
+  width: 100%; padding: 14px 16px; background: var(--bg);
+  border: 1px solid rgba(0,255,156,0.3); border-radius: 8px;
+  color: var(--text); font-size: 16px; font-family: inherit;
+}
+.form__field input:focus, .form__field textarea:focus, .form__field select:focus {
+  outline: none; border-color: var(--neon); box-shadow: 0 0 12px rgba(0,255,156,0.3);
+}
+.form__success { margin-top: 16px; color: var(--neon); font-weight: 700; font-family: 'Orbitron', sans-serif; }
+
+/* ---------- ПОДВАЛ ---------- */
+.footer { background: #020c07; border-top: 1px solid rgba(0,255,156,0.15); padding: 44px 0 24px; }
+.footer__inner { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; margin-bottom: 22px; }
+.footer strong { color: var(--neon); font-family: 'Orbitron', sans-serif; }
+.footer p { color: var(--muted); }
+.footer__copy { text-align: center; color: var(--muted); font-size: 14px; border-top: 1px solid rgba(0,255,156,0.1); padding-top: 20px; }
+
+/* ---------- КНОПКА "НАВЕРХ" ---------- */
+.to-top {
+  position: fixed; bottom: 28px; right: 28px; z-index: 30;
+  width: 50px; height: 50px; border-radius: 50%;
+  background: var(--neon); color: #032015; border: none; cursor: pointer;
+  font-size: 18px; opacity: 0; pointer-events: none; transition: opacity 0.3s, transform 0.2s;
+  box-shadow: 0 0 18px rgba(0,255,156,0.5);
+}
+.to-top.visible { opacity: 1; pointer-events: auto; }
+.to-top:hover { transform: translateY(-4px); }
+
+/*
+  ---------- АНИМАЦИЯ ПОЯВЛЕНИЯ ПРИ ПРОКРУТКЕ ----------
+  Блоки с классом .reveal сначала прозрачные и смещены вниз.
+  Когда блок попадает в видимую область, script.js добавляет класс .reveal--visible,
+  и блок плавно "выезжает" вверх и проявляется.
+*/
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal--visible { opacity: 1; transform: translateY(0); }
+
+/* ---------- АДАПТИВНОСТЬ (телефоны) ---------- */
+@media (max-width: 900px) {
+  .components { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .nav { display: none; }
+  .builds, .reviews { grid-template-columns: 1fr; }
+  .form__row { grid-template-columns: 1fr; }
+}

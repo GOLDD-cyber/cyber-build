@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NEON FORGE — сборка игровых ПК</title>
+
+  <!-- Шрифты: моноширинный "технический" для заголовков + обычный для текста -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <!-- ШАПКА -->
+  <header class="header">
+    <div class="container header__inner">
+      <a href="#" class="logo">&lt;NEON_FORGE/&gt;</a>
+      <nav class="nav">
+        <a href="#builds">Сборки</a>
+        <a href="#components">Компоненты</a>
+        <a href="#reviews">Отзывы</a>
+        <a href="#consult">Консультация</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ГЛАВНЫЙ ЭКРАН с анимированным фоном (matrix-дождь рисует script.js на <canvas>) -->
+  <section class="hero">
+    <canvas id="matrix" class="hero__canvas"></canvas>  <!-- сюда JS рисует "цифровой дождь" -->
+    <div class="container hero__inner">
+      <p class="hero__tag">// СОБИРАЕМ БУДУЩЕЕ</p>
+      <h1 class="hero__title">ИГРОВЫЕ ПК<br /><span class="glow">НОВОГО ПОКОЛЕНИЯ</span></h1>
+      <p class="hero__subtitle">Готовые сборки, отдельные компоненты и бесплатная консультация инженера. Собираем под твои задачи и бюджет.</p>
+      <div class="hero__buttons">
+        <a href="#builds" class="btn btn--primary">Выбрать сборку</a>
+        <a href="#consult" class="btn btn--ghost">Консультация</a>
+      </div>
+    </div>
+    <div class="hero__scroll">▼ листай вниз</div>
+  </section>
+
+  <!-- БЛОК ГОТОВЫХ СБОРОК: 3 штуки -->
+  <section class="section reveal" id="builds">
+    <div class="container">
+      <h2 class="section__title">Готовые <span class="glow">сборки</span></h2>
+      <p class="section__subtitle">Три конфигурации под любой бюджет. Собрано, протестировано, готово к игре.</p>
+
+      <div class="builds">
+        <!-- Сборка 1 -->
+        <article class="build">
+          <div class="build__badge">СТАРТ</div>
+          <h3 class="build__name">NEON LITE</h3>
+          <p class="build__for">Для Full HD и киберспорта</p>
+          <ul class="build__specs">
+            <li><span>CPU</span> Ryzen 5 7500F</li>
+            <li><span>GPU</span> RTX 4060 8GB</li>
+            <li><span>RAM</span> 16GB DDR5</li>
+            <li><span>SSD</span> 1TB NVMe</li>
+          </ul>
+          <div class="build__price">79 990 ₽</div>
+          <button class="btn btn--primary buy">Купить сборку</button>
+        </article>
+
+        <!-- Сборка 2 (выделенная) -->
+        <article class="build build--featured">
+          <div class="build__badge">ХИТ</div>
+          <h3 class="build__name">NEON CORE</h3>
+          <p class="build__for">Для 2K на ультра-настройках</p>
+          <ul class="build__specs">
+            <li><span>CPU</span> Ryzen 7 7800X3D</li>
+            <li><span>GPU</span> RTX 4070 Ti 12GB</li>
+            <li><span>RAM</span> 32GB DDR5</li>
+            <li><span>SSD</span> 2TB NVMe</li>
+          </ul>
+          <div class="build__price">169 990 ₽</div>
+          <button class="btn btn--primary buy">Купить сборку</button>
+        </article>
+
+        <!-- Сборка 3 -->
+        <article class="build">
+          <div class="build__badge">ТОП</div>
+          <h3 class="build__name">NEON TITAN</h3>
+          <p class="build__for">4K, стримы, нейросети</p>
+          <ul class="build__specs">
+            <li><span>CPU</span> Ryzen 9 7950X3D</li>
+            <li><span>GPU</span> RTX 4090 24GB</li>
+            <li><span>RAM</span> 64GB DDR5</li>
+            <li><span>SSD</span> 4TB NVMe</li>
+          </ul>
+          <div class="build__price">389 990 ₽</div>
+          <button class="btn btn--primary buy">Купить сборку</button>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- БЛОК ОТДЕЛЬНЫХ КОМПОНЕНТОВ -->
+  <section class="section section--alt reveal" id="components">
+    <div class="container">
+      <h2 class="section__title">Отдельные <span class="glow">компоненты</span></h2>
+      <p class="section__subtitle">Собираешь сам? Выбери комплектующие из нашего каталога.</p>
+
+      <div class="components">
+        <div class="component"><div class="component__icon">🎮</div><h4>RTX 4070 Ti</h4><p>Видеокарта · 12GB</p><span class="component__price">74 990 ₽</span><button class="btn btn--small buy">В корзину</button></div>
+        <div class="component"><div class="component__icon">🧠</div><h4>Ryzen 7 7800X3D</h4><p>Процессор · 8 ядер</p><span class="component__price">38 990 ₽</span><button class="btn btn--small buy">В корзину</button></div>
+        <div class="component"><div class="component__icon">⚡</div><h4>32GB DDR5</h4><p>Память · 6000MHz</p><span class="component__price">11 990 ₽</span><button class="btn btn--small buy">В корзину</button></div>
+        <div class="component"><div class="component__icon">💾</div><h4>2TB NVMe SSD</h4><p>Накопитель · Gen4</p><span class="component__price">14 990 ₽</span><button class="btn btn--small buy">В корзину</button></div>
+        <div class="component"><div class="component__icon">🔲</div><h4>X670E Mainboard</h4><p>Мат. плата · AM5</p><span class="component__price">24 990 ₽</span><button class="btn btn--small buy">В корзину</button></div>
+        <div class="component"><div class="component__icon">🔌</div><h4>850W Gold</h4><p>Блок питания</p><span class="component__price">9 990 ₽</span><button class="btn btn--small buy">В корзину</button></div>
+        <div class="component"><div class="component__icon">❄️</div><h4>Liquid Cooler 360</h4><p>Охлаждение</p><span class="component__price">12 990 ₽</span><button class="btn btn--small buy">В корзину</button></div>
+        <div class="component"><div class="component__icon">🖥️</div><h4>Lian Li O11</h4><p>Корпус · RGB</p><span class="component__price">13 990 ₽</span><button class="btn btn--small buy">В корзину</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- БЛОК ОТЗЫВОВ -->
+  <section class="section reveal" id="reviews">
+    <div class="container">
+      <h2 class="section__title">Отзывы <span class="glow">клиентов</span></h2>
+      <p class="section__subtitle">Более 3000 собранных систем</p>
+
+      <div class="reviews">
+        <article class="review">
+          <p class="review__text">«Собрали NEON CORE за два дня. Кабель-менеджмент идеальный, всё летает. Консультант помог выбрать под мои игры.»</p>
+          <div class="review__author"><span class="review__stars">★★★★★</span><strong>Артём</strong> · Москва</div>
+        </article>
+        <article class="review">
+          <p class="review__text">«Брал отдельные комплектующие, всё оригинал, цены ниже рынка. Доставка быстрая, упаковано надёжно.»</p>
+          <div class="review__author"><span class="review__stars">★★★★★</span><strong>Никита</strong> · Казань</div>
+        </article>
+        <article class="review">
+          <p class="review__text">«TITAN для работы с нейросетями — зверь. Спасибо инженеру за подбор, уложились в бюджет.»</p>
+          <div class="review__author"><span class="review__stars">★★★★★</span><strong>Елена</strong> · СПб</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- БЛОК КОНСУЛЬТАЦИИ (форма) -->
+  <section class="section section--alt reveal" id="consult">
+    <div class="container">
+      <h2 class="section__title">Бесплатная <span class="glow">консультация</span></h2>
+      <p class="section__subtitle">Не знаешь, что выбрать? Инженер подберёт сборку под твои задачи и бюджет.</p>
+
+      <form class="form" id="consultForm">
+        <div class="form__row">
+          <label class="form__field"><span>Имя</span><input type="text" name="name" placeholder="Как к вам обращаться" required /></label>
+          <label class="form__field"><span>Телефон</span><input type="tel" name="phone" placeholder="+7 (___) ___-__-__" required /></label>
+        </div>
+        <label class="form__field"><span>Бюджет</span>
+          <select name="budget">
+            <option>до 100 000 ₽</option>
+            <option>100 000 – 200 000 ₽</option>
+            <option>200 000 – 400 000 ₽</option>
+            <option>без ограничений</option>
+          </select>
+        </label>
+        <label class="form__field"><span>Для чего нужен ПК</span><textarea name="comment" rows="3" placeholder="Игры, монтаж, нейросети, работа..."></textarea></label>
+        <button type="submit" class="btn btn--primary">Получить консультацию</button>
+        <p class="form__success" id="formSuccess"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ПОДВАЛ -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div><strong>&lt;NEON_FORGE/&gt;</strong><p>Сборка игровых ПК · с 2019 года</p></div>
+      <div><p>тел. +7 (900) 777-00-11</p><p>build@neonforge.ru</p></div>
+    </div>
+    <p class="footer__copy">© 2026 NEON FORGE · собрано с любовью к железу</p>
+  </footer>
+
+  <!-- Кнопка "наверх" (появляется при прокрутке, обрабатывается в script.js) -->
+  <button class="to-top" id="toTop" aria-label="Наверх">▲</button>
+
+  <script src="script.js"></script>
+</body>
+</html>
