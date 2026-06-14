@@ -109,6 +109,14 @@ body {
 }
 .fan-hub { fill: #07261b; stroke: rgba(0,255,180,0.5); stroke-width: 2; }
 .fan-cap { fill: #00ffba; }
+/* нужно для корректного переноса вентиляторов на телефонах (см. медиа-запрос ниже) */
+.fan-pos { transform-box: view-box; transform-origin: 0 0; }
+/* На узких экранах боковые края фона обрезаются, поэтому вентиляторы стоят по краям и пропадают.
+   Переносим их ближе к центру — на ПК (шире 768px) это правило не применяется. */
+@media (max-width: 768px) {
+  .fan-pos--1 { transform: translate(540px, 760px); }
+  .fan-pos--2 { transform: translate(880px, 210px) scale(0.82); }
+}
 
 /* Подсказка браузеру оптимизировать смещение фоновых слоёв (параллакс) */
 .tubes, .bgfx { will-change: transform; }
