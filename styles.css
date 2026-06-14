@@ -45,6 +45,48 @@ body {
   opacity: 0.6;
 }
 
+/* ---------- ТРУБКИ ВОДЯНОГО ОХЛАЖДЕНИЯ (RGB) ---------- */
+.tubes {
+  position: fixed; inset: 0; width: 100%; height: 100%;
+  z-index: 0; pointer-events: none; opacity: 0.5;
+}
+/* тёмный "корпус" трубки */
+.tube-base {
+  fill: none; stroke: rgba(6, 26, 17, 0.75);
+  stroke-width: 18; stroke-linecap: round;
+}
+/* светящаяся жидкость внутри — её цвет переливается (см. анимацию tubeHue ниже) */
+.tube-coolant {
+  fill: none; stroke: #00ff9c; stroke-width: 7; stroke-linecap: round;
+  /* мягкое свечение в два слоя — как подсветка реальной СВО */
+  filter: drop-shadow(0 0 5px #00ff9c) drop-shadow(0 0 12px rgba(0,255,156,0.5));
+  opacity: 0.85;
+}
+/* бегущий по трубке блик — имитирует движение жидкости.
+   Один длинный светлый участок на большой промежуток = плавный поток, а не "лампочки". */
+.tube-flow {
+  fill: none; stroke: #d6ffee; stroke-width: 7; stroke-linecap: round;
+  stroke-dasharray: 60 460;
+  animation: tubeFlow 7s linear infinite;
+  opacity: 0.9;
+}
+@keyframes tubeFlow { to { stroke-dashoffset: -520; } }
+
+/* Перелив RGB: медленно поворачиваем оттенок всей трубки по кругу (0→360°).
+   Это и даёт плавный переход цветов жидкости и свечения, без резких миганий. */
+.tube { animation: tubeHue 20s linear infinite; }
+@keyframes tubeHue { to { filter: hue-rotate(360deg); } }
+/* Разные задержки — чтобы трубки светились РАЗНЫМИ цветами одновременно
+   (как реальная RGB-подсветка), а не все одним цветом. */
+.tube--1 { animation-delay: 0s; }
+.tube--2 { animation-delay: -5s; }
+.tube--3 { animation-delay: -10s; }
+.tube--4 { animation-delay: -15s; }
+/* у бегущего блика своя скорость на каждой трубке — выглядит живее */
+.tube--2 .tube-flow { animation-duration: 9s; }
+.tube--3 .tube-flow { animation-duration: 6s; }
+.tube--4 .tube-flow { animation-duration: 8s; }
+
 h1, h2, h3, h4 { font-family: 'Orbitron', sans-serif; line-height: 1.2; }
 
 .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
@@ -335,21 +377,32 @@ h1, h2, h3, h4 { font-family: 'Orbitron', sans-serif; line-height: 1.2; }
 /* ОТЗЫВЫ: мягко пульсирующее свечение в центре */
 #reviews::before {
   content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
-  background: radial-gradient(circle at 50% 45%, rgba(0,255,156,0.10), transparent 60%);
+  background: radial-gradient(circle at 50% 45%, rgba(0,255,156,0.10), transparent 55%);
   animation: pulseGlow 6s ease-in-out infinite;
+  /* затухание на верхнем и нижнем краях — мягкие стыки с соседними секциями */
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 20%, #000 80%, transparent);
+          mask-image: linear-gradient(to bottom, transparent, #000 20%, #000 80%, transparent);
 }
 @keyframes pulseGlow {
   0%, 100% { opacity: 0.35; transform: scale(1); }
   50%      { opacity: 0.8;  transform: scale(1.15); }
 }
 
-/* КОНСУЛЬТАЦИЯ: медленно вращающийся световой луч */
+/* КОНСУЛЬТАЦИЯ: мягкое диагональное свечение, медленно "проплывающее" по секции */
 #consult::before {
-  content: ''; position: absolute; inset: -40%; z-index: 0; pointer-events: none;
-  background: conic-gradient(from 0deg, transparent 0deg, rgba(0,255,156,0.08) 40deg, transparent 90deg);
-  animation: spinBeam 16s linear infinite;
+  content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: linear-gradient(120deg, transparent 35%, rgba(0,255,156,0.08) 50%, transparent 65%);
+  background-size: 220% 220%;
+  animation: sweepGlow 12s ease-in-out infinite;
+  /* затухание на краях — мягкие стыки */
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 20%, #000 80%, transparent);
+          mask-image: linear-gradient(to bottom, transparent, #000 20%, #000 80%, transparent);
 }
-@keyframes spinBeam { to { transform: rotate(360deg); } }
+@keyframes sweepGlow {
+  0%   { background-position: 0% 0%; }
+  50%  { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+}
 
 /* ---------- АДАПТИВНОСТЬ (телефоны) ---------- */
 @media (max-width: 900px) {
