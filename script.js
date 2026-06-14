@@ -7,6 +7,10 @@
   4) Кнопки "купить"/"в корзину" и форма консультации.
 */
 
+// Флаг "облегчённого режима". Включается автоматически внизу файла,
+// если устройство не тянет тяжёлые эффекты (например, Firefox в виртуалке без GPU).
+let LITE = false;
+
 /* ============ 1) MATRIX-ДОЖДЬ НА ГЛАВНОМ ЭКРАНЕ ============ */
 // Находим <canvas> — это "холст", на котором можно рисовать через JS.
 const canvas = document.querySelector('#matrix');
@@ -91,19 +95,22 @@ function drawBg() {
     bx.fill();
   }
 
-  // соединяем линиями точки, которые ближе 130px (чем ближе — тем ярче линия)
-  for (let i = 0; i < particles.length; i++) {
-    for (let j = i + 1; j < particles.length; j++) {
-      const dx = particles[i].x - particles[j].x;
-      const dy = particles[i].y - particles[j].y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < 130) {
-        bx.strokeStyle = 'rgba(0, 255, 156, ' + (0.16 * (1 - dist / 130)) + ')';
-        bx.lineWidth = 1;
-        bx.beginPath();
-        bx.moveTo(particles[i].x, particles[i].y);
-        bx.lineTo(particles[j].x, particles[j].y);
-        bx.stroke();
+  // Соединяем линиями точки, которые ближе 130px. Это самая "тяжёлая" часть
+  // (перебор пар точек), поэтому в облегчённом режиме её пропускаем.
+  if (!LITE) {
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 130) {
+          bx.strokeStyle = 'rgba(0, 255, 156, ' + (0.16 * (1 - dist / 130)) + ')';
+          bx.lineWidth = 1;
+          bx.beginPath();
+          bx.moveTo(particles[i].x, particles[i].y);
+          bx.lineTo(particles[j].x, particles[j].y);
+          bx.stroke();
+        }
       }
     }
   }
@@ -239,6 +246,7 @@ tiltCards.forEach(function (card) {
 const tubesEl = document.querySelector('.tubes');
 let parallaxScheduled = false;
 window.addEventListener('mousemove', function (e) {
+  if (LITE) return; // в облегчённом режиме параллакс выключен (тяжёлая перерисовка фона)
   const mx = e.clientX / window.innerWidth - 0.5;
   const my = e.clientY / window.innerHeight - 0.5;
   if (!parallaxScheduled) {
@@ -251,3 +259,34 @@ window.addEventListener('mousemove', function (e) {
     });
   }
 });
+
+/* ============ 8) АВТО-ОПРЕДЕЛЕНИЕ СЛАБОГО УСТРОЙСТВА (облегчённый режим) ============ */
+// Замеряем плавность (FPS) в первые ~0.7 секунды. Если сайт тормозит
+// (часто Firefox в виртуалке/на Linux без GPU-ускорения) — включаем облегчённый режим:
+// добавляем класс "lite" (CSS отключает размытия/тени/маски) и глушим тяжёлые JS-эффекты.
+(function detectPerformance() {
+  // Если пользователь в системе попросил уменьшить анимацию — сразу облегчаем.
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    enableLite();
+    return;
+  }
+  let frames = 0;
+  const start = performance.now();
+  function probe(now) {
+    frames++;
+    if (now - start < 700) {
+      requestAnimationFrame(probe);
+    } else {
+      const fps = frames / ((now - start) / 1000);
+      if (fps < 45) enableLite(); // меньше 45 кадров/сек — устройство не тянет
+    }
+  }
+  requestAnimationFrame(probe);
+
+  function enableLite() {
+    LITE = true;
+    document.documentElement.classList.add('lite');
+    // Останавливаем анимацию SVG-градиента (бегущая радуга) — это снимает постоянную перерисовку трубок.
+    try { tubesEl.pauseAnimations(); } catch (e) {}
+  }
+})();
