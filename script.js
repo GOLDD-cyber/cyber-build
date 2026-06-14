@@ -49,6 +49,68 @@ function drawMatrix() {
 }
 setInterval(drawMatrix, 50); // вызываем drawMatrix каждые 50 миллисекунд
 
+/* ============ 1.5) НЕОНОВАЯ СЕТЬ НА ВЕСЬ ФОН САЙТА ============ */
+// Этот холст закреплён на весь экран и виден за всеми секциями.
+// Рисуем точки, которые медленно плавают, и соединяем линиями те, что рядом, —
+// получается "живая сеть", как в фантастике.
+const bgfx = document.querySelector('#bgfx');
+const bx = bgfx.getContext('2d');
+let W, H, particles;
+
+function initBg() {
+  W = bgfx.width = window.innerWidth;
+  H = bgfx.height = window.innerHeight;
+  // количество точек зависит от размера экрана (но не больше 90, чтобы не тормозило)
+  const count = Math.min(90, Math.floor((W * H) / 17000));
+  particles = [];
+  for (let i = 0; i < count; i++) {
+    particles.push({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.4, // скорость по горизонтали
+      vy: (Math.random() - 0.5) * 0.4  // скорость по вертикали
+    });
+  }
+}
+initBg();
+window.addEventListener('resize', initBg);
+
+function drawBg() {
+  bx.clearRect(0, 0, W, H); // стираем прошлый кадр (фон остаётся прозрачным)
+
+  // двигаем и рисуем точки
+  for (const p of particles) {
+    p.x += p.vx;
+    p.y += p.vy;
+    // если точка дошла до края — разворачиваем её обратно
+    if (p.x < 0 || p.x > W) p.vx *= -1;
+    if (p.y < 0 || p.y > H) p.vy *= -1;
+    bx.fillStyle = 'rgba(0, 255, 156, 0.7)';
+    bx.beginPath();
+    bx.arc(p.x, p.y, 1.6, 0, Math.PI * 2);
+    bx.fill();
+  }
+
+  // соединяем линиями точки, которые ближе 130px (чем ближе — тем ярче линия)
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 130) {
+        bx.strokeStyle = 'rgba(0, 255, 156, ' + (0.16 * (1 - dist / 130)) + ')';
+        bx.lineWidth = 1;
+        bx.beginPath();
+        bx.moveTo(particles[i].x, particles[i].y);
+        bx.lineTo(particles[j].x, particles[j].y);
+        bx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(drawBg); // просим браузер нарисовать следующий кадр (плавно)
+}
+drawBg();
+
 /* ============ 2) ПОЯВЛЕНИЕ БЛОКОВ ПРИ ПРОКРУТКЕ ============ */
 // IntersectionObserver — "наблюдатель", который сообщает, когда элемент
 // появился в видимой части экрана. Тогда добавляем класс с анимацией.
