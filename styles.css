@@ -87,9 +87,9 @@ body {
 /* ---------- ВЕНТИЛЯТОРЫ (как в реальном ПК) ---------- */
 /* крутится только крыльчатка (.fan-blades), рамка-кольцо статична — как у настоящего вентилятора.
    Лёгкое размытие (blur) + высокая скорость => лопасти сливаются в диск, как в работающем ПК. */
-.fan-blades { transform-box: fill-box; transform-origin: center; filter: blur(1px); }
-.fan--1 { animation: fanSpin 0.7s linear infinite; }
-.fan--2 { animation: fanSpin 0.55s linear infinite reverse; } /* быстрее и в обратную сторону */
+.fan-blades { transform-box: fill-box; transform-origin: center; filter: blur(2.2px); }
+.fan--1 { animation: fanSpin 0.45s linear infinite; }
+.fan--2 { animation: fanSpin 0.34s linear infinite reverse; } /* быстрее и в обратную сторону */
 @keyframes fanSpin { to { transform: rotate(360deg); } }
 
 /* светящаяся рамка-кольцо (LED фрейма) — медленно переливается в зелёно-голубой гамме сайта */
@@ -104,8 +104,8 @@ body {
 }
 /* лопасти — полупрозрачные, слегка ловят свет (как у настоящей крыльчатки) */
 .fan-blades use {
-  fill: rgba(200,255,240,0.09);
-  stroke: rgba(120,255,210,0.26); stroke-width: 1;
+  fill: rgba(200,255,240,0.10);
+  stroke: rgba(120,255,210,0.16); stroke-width: 1; /* мягче края -> ровнее диск, меньше "тряски" */
 }
 .fan-hub { fill: #07261b; stroke: rgba(0,255,180,0.5); stroke-width: 2; }
 .fan-cap { fill: #00ffba; }
