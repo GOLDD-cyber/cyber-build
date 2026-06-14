@@ -25,37 +25,55 @@
     Слой закреплён (fixed) и виден за всем контентом.
   -->
   <svg class="tubes" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <!--
+      Радужный градиент. spreadMethod="repeat" повторяет радугу по всей длине,
+      а <animateTransform> двигает её — поэтому цвета БЕГУТ вдоль трубок,
+      и разные участки светятся разными цветами одновременно (как RGB-лента на фото).
+    -->
+    <defs>
+      <linearGradient id="rgbflow" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="300" y2="170" spreadMethod="repeat">
+        <stop offset="0"    stop-color="#ff1f1f" />
+        <stop offset="0.17" stop-color="#ff20c0" />
+        <stop offset="0.34" stop-color="#5a20ff" />
+        <stop offset="0.5"  stop-color="#20d4ff" />
+        <stop offset="0.67" stop-color="#22ff6a" />
+        <stop offset="0.84" stop-color="#e6ff1f" />
+        <stop offset="1"    stop-color="#ff1f1f" />
+        <animateTransform attributeName="gradientTransform" type="translate"
+          from="0 0" to="300 170" dur="4s" repeatCount="indefinite" />
+      </linearGradient>
+    </defs>
     <g class="tube tube--1">
       <path class="tube-base"    d="M -60 200 C 220 120, 360 360, 280 520 C 220 640, 420 720, 360 940" />
       <path class="tube-coolant" d="M -60 200 C 220 120, 360 360, 280 520 C 220 640, 420 720, 360 940" />
-      <path class="tube-flow"    d="M -60 200 C 220 120, 360 360, 280 520 C 220 640, 420 720, 360 940" />
+      <path class="tube-glow"    d="M -60 200 C 220 120, 360 360, 280 520 C 220 640, 420 720, 360 940" />
     </g>
     <g class="tube tube--2">
       <path class="tube-base"    d="M 1500 160 C 1240 240, 1180 420, 1320 540 C 1420 620, 1180 760, 1300 980" />
       <path class="tube-coolant" d="M 1500 160 C 1240 240, 1180 420, 1320 540 C 1420 620, 1180 760, 1300 980" />
-      <path class="tube-flow"    d="M 1500 160 C 1240 240, 1180 420, 1320 540 C 1420 620, 1180 760, 1300 980" />
+      <path class="tube-glow"    d="M 1500 160 C 1240 240, 1180 420, 1320 540 C 1420 620, 1180 760, 1300 980" />
     </g>
     <g class="tube tube--3">
       <path class="tube-base"    d="M -60 90 C 360 30, 760 170, 1080 80 C 1280 25, 1400 150, 1520 90" />
       <path class="tube-coolant" d="M -60 90 C 360 30, 760 170, 1080 80 C 1280 25, 1400 150, 1520 90" />
-      <path class="tube-flow"    d="M -60 90 C 360 30, 760 170, 1080 80 C 1280 25, 1400 150, 1520 90" />
+      <path class="tube-glow"    d="M -60 90 C 360 30, 760 170, 1080 80 C 1280 25, 1400 150, 1520 90" />
     </g>
     <g class="tube tube--4">
       <path class="tube-base"    d="M -60 830 C 320 890, 700 760, 1000 845 C 1240 910, 1380 800, 1520 850" />
       <path class="tube-coolant" d="M -60 830 C 320 890, 700 760, 1000 845 C 1240 910, 1380 800, 1520 850" />
-      <path class="tube-flow"    d="M -60 830 C 320 890, 700 760, 1000 845 C 1240 910, 1380 800, 1520 850" />
+      <path class="tube-glow"    d="M -60 830 C 320 890, 700 760, 1000 845 C 1240 910, 1380 800, 1520 850" />
     </g>
     <!-- центральная вертикальная трубка -->
     <g class="tube tube--5">
       <path class="tube-base"    d="M 720 -40 C 620 200, 840 380, 720 560 C 640 700, 820 820, 740 980" />
       <path class="tube-coolant" d="M 720 -40 C 620 200, 840 380, 720 560 C 640 700, 820 820, 740 980" />
-      <path class="tube-flow"    d="M 720 -40 C 620 200, 840 380, 720 560 C 640 700, 820 820, 740 980" />
+      <path class="tube-glow"    d="M 720 -40 C 620 200, 840 380, 720 560 C 640 700, 820 820, 740 980" />
     </g>
     <!-- диагональный соединитель через центр -->
     <g class="tube tube--6">
       <path class="tube-base"    d="M -40 480 C 300 520, 500 360, 760 460 C 1000 550, 1200 420, 1520 500" />
       <path class="tube-coolant" d="M -40 480 C 300 520, 500 360, 760 460 C 1000 550, 1200 420, 1520 500" />
-      <path class="tube-flow"    d="M -40 480 C 300 520, 500 360, 760 460 C 1000 550, 1200 420, 1520 500" />
+      <path class="tube-glow"    d="M -40 480 C 300 520, 500 360, 760 460 C 1000 550, 1200 420, 1520 500" />
     </g>
 
     <!-- ФИТИНГИ: светящиеся узлы-соединители на стыках трубок (как разъёмы СВО).
