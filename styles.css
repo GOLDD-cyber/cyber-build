@@ -48,7 +48,7 @@ body {
 /* ---------- ТРУБКИ ВОДЯНОГО ОХЛАЖДЕНИЯ (RGB) ---------- */
 .tubes {
   position: fixed; inset: 0; width: 100%; height: 100%;
-  z-index: 0; pointer-events: none; opacity: 0.5;
+  z-index: 0; pointer-events: none; opacity: 0.62; /* поярче */
 }
 /* тёмный "корпус" трубки */
 .tube-base {
@@ -58,34 +58,80 @@ body {
 /* светящаяся жидкость внутри — её цвет переливается (см. анимацию tubeHue ниже) */
 .tube-coolant {
   fill: none; stroke: #00ff9c; stroke-width: 7; stroke-linecap: round;
-  /* мягкое свечение в два слоя — как подсветка реальной СВО */
-  filter: drop-shadow(0 0 5px #00ff9c) drop-shadow(0 0 12px rgba(0,255,156,0.5));
-  opacity: 0.85;
+  /* более яркое неоновое свечение в три слоя — как подсветка реальной СВО */
+  filter:
+    drop-shadow(0 0 4px #aaffe0)
+    drop-shadow(0 0 9px #00ff9c)
+    drop-shadow(0 0 20px rgba(0,255,156,0.7));
+  opacity: 1;
 }
 /* бегущий по трубке блик — имитирует движение жидкости.
    Один длинный светлый участок на большой промежуток = плавный поток, а не "лампочки". */
 .tube-flow {
-  fill: none; stroke: #d6ffee; stroke-width: 7; stroke-linecap: round;
+  fill: none; stroke: #eaffff; stroke-width: 7; stroke-linecap: round;
   stroke-dasharray: 60 460;
-  animation: tubeFlow 7s linear infinite;
-  opacity: 0.9;
+  animation: tubeFlow 6s linear infinite;
+  opacity: 0.95;
 }
 @keyframes tubeFlow { to { stroke-dashoffset: -520; } }
 
-/* Перелив RGB: медленно поворачиваем оттенок всей трубки по кругу (0→360°).
-   Это и даёт плавный переход цветов жидкости и свечения, без резких миганий. */
-.tube { animation: tubeHue 20s linear infinite; }
+/* Перелив RGB: поворачиваем оттенок всей трубки по кругу (0→360°). 13с = чуть быстрее. */
+.tube { animation: tubeHue 13s linear infinite; }
 @keyframes tubeHue { to { filter: hue-rotate(360deg); } }
 /* Разные задержки — чтобы трубки светились РАЗНЫМИ цветами одновременно
    (как реальная RGB-подсветка), а не все одним цветом. */
 .tube--1 { animation-delay: 0s; }
-.tube--2 { animation-delay: -5s; }
-.tube--3 { animation-delay: -10s; }
-.tube--4 { animation-delay: -15s; }
+.tube--2 { animation-delay: -2.2s; }
+.tube--3 { animation-delay: -4.4s; }
+.tube--4 { animation-delay: -6.6s; }
+.tube--5 { animation-delay: -8.8s; }
+.tube--6 { animation-delay: -11s; }
 /* у бегущего блика своя скорость на каждой трубке — выглядит живее */
-.tube--2 .tube-flow { animation-duration: 9s; }
-.tube--3 .tube-flow { animation-duration: 6s; }
-.tube--4 .tube-flow { animation-duration: 8s; }
+.tube--2 .tube-flow { animation-duration: 8s; }
+.tube--3 .tube-flow { animation-duration: 5s; }
+.tube--4 .tube-flow { animation-duration: 7s; }
+.tube--5 .tube-flow { animation-duration: 9s; }
+.tube--6 .tube-flow { animation-duration: 6.5s; }
+
+/* ФИТИНГИ (узлы-разъёмы на трубках): пульсируют и переливаются вместе с трубками.
+   Индивидуальные задержки заданы прямо в HTML (inline style) для разнообразия цветов. */
+.node { animation: tubeHue 13s linear infinite; }
+.node-dot {
+  fill: #ccffea;
+  filter: drop-shadow(0 0 5px #00ff9c) drop-shadow(0 0 14px rgba(0,255,156,0.8));
+  transform-box: fill-box; transform-origin: center;
+  animation: nodePulse 3.2s ease-in-out infinite;
+}
+@keyframes nodePulse {
+  0%, 100% { transform: scale(0.8); opacity: 0.65; }
+  50%      { transform: scale(1.25); opacity: 1; }
+}
+
+/* ---------- УГЛОВЫЕ HUD-РАМКИ ---------- */
+.hud {
+  position: fixed; width: 38px; height: 38px; z-index: 0;
+  pointer-events: none; opacity: 0.55;
+  border: 2px solid #00ff9c;
+  box-shadow: 0 0 9px rgba(0,255,156,0.7);
+  animation: tubeHue 13s linear infinite; /* переливается тем же RGB */
+}
+.hud--tl { top: 16px; left: 16px;  border-right: none; border-bottom: none; }
+.hud--tr { top: 16px; right: 16px; border-left: none;  border-bottom: none; animation-delay: -3s; }
+.hud--bl { bottom: 16px; left: 16px;  border-right: none; border-top: none; animation-delay: -6s; }
+.hud--br { bottom: 16px; right: 16px; border-left: none;  border-top: none; animation-delay: -9s; }
+
+/* ---------- ПРОПЛЫВАЮЩАЯ СВЕТОВАЯ ЛИНИЯ ---------- */
+.scanline {
+  position: fixed; left: 0; right: 0; top: 0; height: 2px; z-index: 0;
+  pointer-events: none; opacity: 0.22;
+  background: linear-gradient(90deg, transparent, #00ff9c 50%, transparent);
+  box-shadow: 0 0 14px #00ff9c;
+  animation: scanMove 9s linear infinite, tubeHue 13s linear infinite;
+}
+@keyframes scanMove {
+  0%   { transform: translateY(-10vh); }
+  100% { transform: translateY(110vh); }
+}
 
 h1, h2, h3, h4 { font-family: 'Orbitron', sans-serif; line-height: 1.2; }
 
@@ -130,7 +176,8 @@ h1, h2, h3, h4 { font-family: 'Orbitron', sans-serif; line-height: 1.2; }
 }
 .reg-btn:hover {
   background: var(--neon); color: #032015;
-  box-shadow: 0 0 18px rgba(0,255,156,0.6); transform: scale(1.08);
+  box-shadow: 0 0 15px rgba(0,255,156,0.95), 0 0 30px rgba(0,255,156,0.55);
+  transform: scale(1.1);
 }
 
 /* ---------- ГЛАВНЫЙ ЭКРАН ---------- */
@@ -178,10 +225,21 @@ h1, h2, h3, h4 { font-family: 'Orbitron', sans-serif; line-height: 1.2; }
   cursor: pointer; border: 1px solid var(--neon); transition: all 0.2s;
 }
 .btn--primary { background: var(--neon); color: #032015; }
-.btn--primary:hover { box-shadow: 0 0 20px rgba(0,255,156,0.6); transform: translateY(-2px); }
+.btn--primary:hover {
+  box-shadow: 0 0 14px rgba(0,255,156,0.95), 0 0 34px rgba(0,255,156,0.6);
+  transform: translateY(-2px);
+}
 .btn--ghost { background: transparent; color: var(--neon); }
-.btn--ghost:hover { background: rgba(0,255,156,0.1); box-shadow: 0 0 16px rgba(0,255,156,0.4); }
-.btn--small { padding: 9px 18px; font-size: 12px; width: 100%; margin-top: 12px; }
+.btn--ghost:hover {
+  background: rgba(0,255,156,0.12);
+  box-shadow: 0 0 14px rgba(0,255,156,0.8), 0 0 30px rgba(0,255,156,0.45);
+  text-shadow: 0 0 10px rgba(0,255,156,0.8);
+}
+.btn--small { padding: 9px 18px; font-size: 12px; width: 100%; margin-top: 12px; color: var(--neon); background: transparent; }
+.btn--small:hover {
+  background: rgba(0,255,156,0.12);
+  box-shadow: 0 0 12px rgba(0,255,156,0.8), 0 0 22px rgba(0,255,156,0.4);
+}
 
 /* ---------- СЕКЦИИ ---------- */
 /* position: relative + z-index ставят секцию над фоновым холстом;
