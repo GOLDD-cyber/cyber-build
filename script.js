@@ -217,3 +217,37 @@ registerForm.addEventListener('submit', function (event) {
   registerMessage.textContent = '✓ Добро пожаловать, ' + registerForm.name.value + '! Аккаунт создан.';
   registerForm.reset();
 });
+
+/* ============ 6) 3D-НАКЛОН КАРТОЧЕК ЗА КУРСОРОМ ============ */
+// Когда курсор над карточкой — слегка наклоняем её в сторону курсора (эффект объёма).
+const tiltCards = document.querySelectorAll('.build, .component');
+tiltCards.forEach(function (card) {
+  card.addEventListener('mousemove', function (e) {
+    const r = card.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width - 0.5;   // -0.5..0.5 по горизонтали
+    const py = (e.clientY - r.top) / r.height - 0.5;   // -0.5..0.5 по вертикали
+    card.style.transform =
+      'perspective(800px) rotateX(' + (py * -8) + 'deg) rotateY(' + (px * 10) + 'deg) translateY(-6px)';
+  });
+  // Убираем наклон, когда курсор ушёл.
+  card.addEventListener('mouseleave', function () { card.style.transform = ''; });
+});
+
+/* ============ 7) ПАРАЛЛАКС ФОНА ЗА КУРСОРОМ (ощущение глубины) ============ */
+// Трубки и сеть точек чуть смещаются вслед за мышью в разные стороны —
+// получается объём, как на премиальных сайтах. Лёгкий эффект, не грузит.
+const tubesEl = document.querySelector('.tubes');
+let parallaxScheduled = false;
+window.addEventListener('mousemove', function (e) {
+  const mx = e.clientX / window.innerWidth - 0.5;
+  const my = e.clientY / window.innerHeight - 0.5;
+  if (!parallaxScheduled) {
+    parallaxScheduled = true;
+    // requestAnimationFrame — выполняем смещение синхронно с отрисовкой кадра (плавно и экономно)
+    requestAnimationFrame(function () {
+      tubesEl.style.transform = 'translate(' + (mx * 20) + 'px,' + (my * 20) + 'px) scale(1.05)';
+      bgfx.style.transform = 'translate(' + (mx * -12) + 'px,' + (my * -12) + 'px) scale(1.06)';
+      parallaxScheduled = false;
+    });
+  }
+});

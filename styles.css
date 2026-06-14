@@ -84,6 +84,24 @@ body {
   50%      { transform: scale(1.25); opacity: 1; }
 }
 
+/* ---------- ВЕНТИЛЯТОРЫ (вращающиеся крыльчатки) ---------- */
+.fan { transform-box: fill-box; transform-origin: center; }
+.fan--1 { animation: fanSpin 8s linear infinite; }
+.fan--2 { animation: fanSpin 5.5s linear infinite reverse; } /* второй крутится в другую сторону */
+@keyframes fanSpin { to { transform: rotate(360deg); } }
+.fan-ring {
+  fill: none; stroke: url(#rgbflow); stroke-width: 4; opacity: 0.55;
+  filter: drop-shadow(0 0 5px rgba(0,255,156,0.5));
+}
+.fan use {
+  fill: rgba(0, 255, 156, 0.16);
+  stroke: url(#rgbflow); stroke-width: 1.5;
+}
+.fan-hub { fill: url(#rgbflow); }
+
+/* Подсказка браузеру оптимизировать смещение фоновых слоёв (параллакс) */
+.tubes, .bgfx { will-change: transform; }
+
 /* ---------- УГЛОВЫЕ HUD-РАМКИ ---------- */
 .hud {
   position: fixed; width: 38px; height: 38px; z-index: 0;
@@ -229,11 +247,12 @@ h1, h2, h3, h4 { font-family: 'Orbitron', sans-serif; line-height: 1.2; }
 .section__subtitle { text-align: center; color: var(--muted); margin: 14px auto 56px; max-width: 600px; font-size: 18px; }
 
 /* ---------- СБОРКИ ---------- */
-.builds { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; align-items: start; }
+.builds { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; align-items: start; perspective: 1000px; }
 .build {
   position: relative; background: var(--panel);
   border: 1px solid rgba(0,255,156,0.2); border-radius: var(--radius);
-  padding: 36px 28px; transition: transform 0.25s, box-shadow 0.25s;
+  padding: 36px 28px;
+  transition: transform 0.12s ease-out, box-shadow 0.25s, border-color 0.25s;
 }
 .build:hover { transform: translateY(-8px); box-shadow: 0 0 30px rgba(0,255,156,0.25); border-color: var(--neon); }
 .build--featured { border-color: var(--neon); box-shadow: 0 0 30px rgba(0,255,156,0.2); }
@@ -253,10 +272,11 @@ h1, h2, h3, h4 { font-family: 'Orbitron', sans-serif; line-height: 1.2; }
 .build__price { font-family: 'Orbitron', sans-serif; font-size: 30px; font-weight: 700; color: var(--text); margin-bottom: 18px; }
 
 /* ---------- КОМПОНЕНТЫ ---------- */
-.components { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.components { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; perspective: 900px; }
 .component {
   background: var(--panel); border: 1px solid rgba(0,255,156,0.18);
-  border-radius: var(--radius); padding: 24px 20px; text-align: center; transition: all 0.25s;
+  border-radius: var(--radius); padding: 24px 20px; text-align: center;
+  transition: transform 0.12s ease-out, box-shadow 0.25s, border-color 0.25s;
 }
 .component:hover { transform: translateY(-6px); border-color: var(--neon); box-shadow: 0 0 22px rgba(0,255,156,0.2); }
 /* область картинки: тут лежат и эмодзи, и неоновая схема (одна поверх другой) */
