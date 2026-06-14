@@ -16,6 +16,37 @@
        Рисует script.js. Он закреплён (fixed) и виден за всеми блоками. -->
   <canvas id="bgfx" class="bgfx"></canvas>
 
+  <!--
+    ТРУБКИ ВОДЯНОГО ОХЛАЖДЕНИЯ на фоне всего сайта.
+    У каждой трубки 3 слоя пути (path):
+      .tube-base    — тёмный "корпус" трубки,
+      .tube-coolant — светящаяся жидкость внутри (медленно переливается RGB),
+      .tube-flow    — бегущий по трубке блик (как движение охлаждающей жидкости).
+    Слой закреплён (fixed) и виден за всем контентом.
+  -->
+  <svg class="tubes" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <g class="tube tube--1">
+      <path class="tube-base"    d="M -60 200 C 220 120, 360 360, 280 520 C 220 640, 420 720, 360 940" />
+      <path class="tube-coolant" d="M -60 200 C 220 120, 360 360, 280 520 C 220 640, 420 720, 360 940" />
+      <path class="tube-flow"    d="M -60 200 C 220 120, 360 360, 280 520 C 220 640, 420 720, 360 940" />
+    </g>
+    <g class="tube tube--2">
+      <path class="tube-base"    d="M 1500 160 C 1240 240, 1180 420, 1320 540 C 1420 620, 1180 760, 1300 980" />
+      <path class="tube-coolant" d="M 1500 160 C 1240 240, 1180 420, 1320 540 C 1420 620, 1180 760, 1300 980" />
+      <path class="tube-flow"    d="M 1500 160 C 1240 240, 1180 420, 1320 540 C 1420 620, 1180 760, 1300 980" />
+    </g>
+    <g class="tube tube--3">
+      <path class="tube-base"    d="M -60 90 C 360 30, 760 170, 1080 80 C 1280 25, 1400 150, 1520 90" />
+      <path class="tube-coolant" d="M -60 90 C 360 30, 760 170, 1080 80 C 1280 25, 1400 150, 1520 90" />
+      <path class="tube-flow"    d="M -60 90 C 360 30, 760 170, 1080 80 C 1280 25, 1400 150, 1520 90" />
+    </g>
+    <g class="tube tube--4">
+      <path class="tube-base"    d="M -60 830 C 320 890, 700 760, 1000 845 C 1240 910, 1380 800, 1520 850" />
+      <path class="tube-coolant" d="M -60 830 C 320 890, 700 760, 1000 845 C 1240 910, 1380 800, 1520 850" />
+      <path class="tube-flow"    d="M -60 830 C 320 890, 700 760, 1000 845 C 1240 910, 1380 800, 1520 850" />
+    </g>
+  </svg>
+
   <!-- ШАПКА -->
   <header class="header">
     <div class="container header__inner">
