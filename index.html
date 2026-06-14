@@ -42,6 +42,8 @@
         <animateTransform attributeName="gradientTransform" type="translate"
           from="0 0" to="300 170" dur="4s" repeatCount="indefinite" />
       </linearGradient>
+      <!-- Одна лопасть вентилятора. Её несколько раз поворачиваем (rotate) — получается крыльчатка. -->
+      <path id="blade" d="M0 0 Q 22 -15 52 -9 Q 42 0 52 9 Q 22 15 0 0 Z" />
     </defs>
     <g class="tube tube--1">
       <path class="tube-base"    d="M -60 200 C 220 120, 360 360, 280 520 C 220 640, 420 720, 360 940" />
@@ -74,6 +76,27 @@
       <path class="tube-base"    d="M -40 480 C 300 520, 500 360, 760 460 C 1000 550, 1200 420, 1520 500" />
       <path class="tube-coolant" d="M -40 480 C 300 520, 500 360, 760 460 C 1000 550, 1200 420, 1520 500" />
       <path class="tube-glow"    d="M -40 480 C 300 520, 500 360, 760 460 C 1000 550, 1200 420, 1520 500" />
+    </g>
+
+    <!-- ВЕНТИЛЯТОРЫ: вращающиеся крыльчатки на фоне (явная ПК-тематика).
+         Внешний <g> ставит вентилятор на место, внутренний .fan крутится. -->
+    <g transform="translate(190 770)">
+      <g class="fan fan--1">
+        <circle class="fan-ring" r="62" />
+        <use href="#blade" /><use href="#blade" transform="rotate(51.4)" /><use href="#blade" transform="rotate(102.8)" />
+        <use href="#blade" transform="rotate(154.2)" /><use href="#blade" transform="rotate(205.6)" />
+        <use href="#blade" transform="rotate(257)" /><use href="#blade" transform="rotate(308.4)" />
+        <circle class="fan-hub" r="11" />
+      </g>
+    </g>
+    <g transform="translate(1265 215)">
+      <g class="fan fan--2">
+        <circle class="fan-ring" r="50" />
+        <use href="#blade" /><use href="#blade" transform="rotate(51.4)" /><use href="#blade" transform="rotate(102.8)" />
+        <use href="#blade" transform="rotate(154.2)" /><use href="#blade" transform="rotate(205.6)" />
+        <use href="#blade" transform="rotate(257)" /><use href="#blade" transform="rotate(308.4)" />
+        <circle class="fan-hub" r="9" />
+      </g>
     </g>
 
     <!-- ФИТИНГИ: светящиеся узлы-соединители на стыках трубок (как разъёмы СВО).
