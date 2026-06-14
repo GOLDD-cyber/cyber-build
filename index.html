@@ -31,19 +31,18 @@
       и разные участки светятся разными цветами одновременно (как RGB-лента на фото).
     -->
     <defs>
-      <linearGradient id="rgbflow" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="300" y2="170" spreadMethod="repeat">
-        <stop offset="0"    stop-color="#ff1f1f" />
-        <stop offset="0.17" stop-color="#ff20c0" />
-        <stop offset="0.34" stop-color="#5a20ff" />
-        <stop offset="0.5"  stop-color="#20d4ff" />
-        <stop offset="0.67" stop-color="#22ff6a" />
-        <stop offset="0.84" stop-color="#e6ff1f" />
-        <stop offset="1"    stop-color="#ff1f1f" />
+      <linearGradient id="rgbflow" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="320" y2="180" spreadMethod="repeat">
+        <!-- Зелёно-голубая гамма сайта (без ярких красных/жёлтых) — спокойно, в тему -->
+        <stop offset="0"    stop-color="#00ff9c" />
+        <stop offset="0.25" stop-color="#00ffd0" />
+        <stop offset="0.5"  stop-color="#19b9ff" />
+        <stop offset="0.75" stop-color="#00e8b4" />
+        <stop offset="1"    stop-color="#00ff9c" />
         <animateTransform attributeName="gradientTransform" type="translate"
-          from="0 0" to="300 170" dur="4s" repeatCount="indefinite" />
+          from="0 0" to="320 180" dur="6s" repeatCount="indefinite" />
       </linearGradient>
-      <!-- Одна лопасть вентилятора. Её несколько раз поворачиваем (rotate) — получается крыльчатка. -->
-      <path id="blade" d="M0 0 Q 22 -15 52 -9 Q 42 0 52 9 Q 22 15 0 0 Z" />
+      <!-- Одна изогнутая лопасть (как у реального вентилятора). Повторяем её 9 раз поворотом — крыльчатка. -->
+      <path id="blade" d="M 13 1 C 24 -15, 46 -16, 58 -3 C 53 4, 40 8, 27 8 C 21 8, 16 5, 13 4 Z" />
     </defs>
     <g class="tube tube--1">
       <path class="tube-base"    d="M -60 200 C 220 120, 360 360, 280 520 C 220 640, 420 720, 360 940" />
@@ -80,22 +79,26 @@
 
     <!-- ВЕНТИЛЯТОРЫ: вращающиеся крыльчатки на фоне (явная ПК-тематика).
          Внешний <g> ставит вентилятор на место, внутренний .fan крутится. -->
-    <g transform="translate(190 770)">
-      <g class="fan fan--1">
-        <circle class="fan-ring" r="62" />
-        <use href="#blade" /><use href="#blade" transform="rotate(51.4)" /><use href="#blade" transform="rotate(102.8)" />
-        <use href="#blade" transform="rotate(154.2)" /><use href="#blade" transform="rotate(205.6)" />
-        <use href="#blade" transform="rotate(257)" /><use href="#blade" transform="rotate(308.4)" />
-        <circle class="fan-hub" r="11" />
+    <g transform="translate(195 760)">
+      <circle class="fan-ring" r="64" />       <!-- светящаяся рамка-кольцо (LED, не крутится) -->
+      <circle class="fan-ring-in" r="53" />    <!-- внутренний ободок -->
+      <g class="fan-blades fan--1">            <!-- крыльчатка: вращается -->
+        <use href="#blade" /><use href="#blade" transform="rotate(40)" /><use href="#blade" transform="rotate(80)" />
+        <use href="#blade" transform="rotate(120)" /><use href="#blade" transform="rotate(160)" /><use href="#blade" transform="rotate(200)" />
+        <use href="#blade" transform="rotate(240)" /><use href="#blade" transform="rotate(280)" /><use href="#blade" transform="rotate(320)" />
+        <circle class="fan-hub" r="15" />
+        <circle class="fan-cap" r="6" />
       </g>
     </g>
-    <g transform="translate(1265 215)">
-      <g class="fan fan--2">
-        <circle class="fan-ring" r="50" />
-        <use href="#blade" /><use href="#blade" transform="rotate(51.4)" /><use href="#blade" transform="rotate(102.8)" />
-        <use href="#blade" transform="rotate(154.2)" /><use href="#blade" transform="rotate(205.6)" />
-        <use href="#blade" transform="rotate(257)" /><use href="#blade" transform="rotate(308.4)" />
-        <circle class="fan-hub" r="9" />
+    <g transform="translate(1270 210) scale(0.78)">
+      <circle class="fan-ring" r="64" />
+      <circle class="fan-ring-in" r="53" />
+      <g class="fan-blades fan--2">
+        <use href="#blade" /><use href="#blade" transform="rotate(40)" /><use href="#blade" transform="rotate(80)" />
+        <use href="#blade" transform="rotate(120)" /><use href="#blade" transform="rotate(160)" /><use href="#blade" transform="rotate(200)" />
+        <use href="#blade" transform="rotate(240)" /><use href="#blade" transform="rotate(280)" /><use href="#blade" transform="rotate(320)" />
+        <circle class="fan-hub" r="15" />
+        <circle class="fan-cap" r="6" />
       </g>
     </g>
 
