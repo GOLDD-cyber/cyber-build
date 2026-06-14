@@ -102,3 +102,56 @@ form.addEventListener('submit', function (event) {
   success.textContent = '✓ ' + form.name.value + ', заявка принята! Инженер свяжется с вами в течение 15 минут.';
   form.reset();
 });
+
+/* ============ 5) ОКНО РЕГИСТРАЦИИ ============ */
+const authModal = document.querySelector('#authModal');   // само окно
+const openAuthBtn = document.querySelector('#openAuth');   // круглая кнопка в шапке
+
+// Открыть окно: показываем его.
+function openModal() {
+  authModal.classList.add('modal--open');
+  authModal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden'; // запрещаем прокрутку фона, пока окно открыто
+}
+// Закрыть окно.
+function closeModal() {
+  authModal.classList.remove('modal--open');
+  authModal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = ''; // возвращаем прокрутку
+}
+
+// Клик по круглой кнопке — открываем окно.
+openAuthBtn.addEventListener('click', openModal);
+
+// Любой элемент с атрибутом data-close (крестик и тёмный фон) — закрывает окно.
+authModal.querySelectorAll('[data-close]').forEach(function (el) {
+  el.addEventListener('click', closeModal);
+});
+
+// Клавиша Esc тоже закрывает окно.
+document.addEventListener('keydown', function (event) {
+  if (event.key === 'Escape') closeModal();
+});
+
+// Обработка самой формы регистрации.
+const registerForm = document.querySelector('#registerForm');
+const registerMessage = document.querySelector('#registerMessage');
+registerForm.addEventListener('submit', function (event) {
+  event.preventDefault();
+
+  // Проверяем, что оба пароля совпадают.
+  const pass1 = registerForm.password.value;
+  const pass2 = registerForm.password2.value;
+
+  if (pass1 !== pass2) {
+    // Не совпали — показываем ошибку красным и выходим.
+    registerMessage.className = 'form__error';
+    registerMessage.textContent = '✕ Пароли не совпадают';
+    return;
+  }
+
+  // Всё хорошо — показываем приветствие зелёным.
+  registerMessage.className = 'form__success';
+  registerMessage.textContent = '✓ Добро пожаловать, ' + registerForm.name.value + '! Аккаунт создан.';
+  registerForm.reset();
+});
