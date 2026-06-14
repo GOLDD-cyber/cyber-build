@@ -85,10 +85,11 @@ body {
 }
 
 /* ---------- ВЕНТИЛЯТОРЫ (как в реальном ПК) ---------- */
-/* крутится только крыльчатка (.fan-blades), рамка-кольцо статична — как у настоящего вентилятора */
-.fan-blades { transform-box: fill-box; transform-origin: center; }
-.fan--1 { animation: fanSpin 3.4s linear infinite; }
-.fan--2 { animation: fanSpin 2.6s linear infinite reverse; } /* другой скорости и в обратную сторону */
+/* крутится только крыльчатка (.fan-blades), рамка-кольцо статична — как у настоящего вентилятора.
+   Лёгкое размытие (blur) + высокая скорость => лопасти сливаются в диск, как в работающем ПК. */
+.fan-blades { transform-box: fill-box; transform-origin: center; filter: blur(1px); }
+.fan--1 { animation: fanSpin 0.7s linear infinite; }
+.fan--2 { animation: fanSpin 0.55s linear infinite reverse; } /* быстрее и в обратную сторону */
 @keyframes fanSpin { to { transform: rotate(360deg); } }
 
 /* светящаяся рамка-кольцо (LED фрейма) — медленно переливается в зелёно-голубой гамме сайта */
