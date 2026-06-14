@@ -48,7 +48,7 @@ body {
 /* ---------- ТРУБКИ ВОДЯНОГО ОХЛАЖДЕНИЯ (RGB) ---------- */
 .tubes {
   position: fixed; inset: 0; width: 100%; height: 100%;
-  z-index: 0; pointer-events: none; opacity: 0.72; /* поярче */
+  z-index: 0; pointer-events: none; opacity: 0.48; /* приглушённо, чтобы не бросалось в глаза */
 }
 /* тёмный "корпус" трубки */
 .tube-base {
@@ -59,14 +59,14 @@ body {
    Цвет берётся из градиента #rgbflow (задан в SVG, он сам анимируется),
    поэтому разные участки трубки светятся разными цветами одновременно — как RGB-лента. */
 .tube-coolant {
-  fill: none; stroke: url(#rgbflow); stroke-width: 6; stroke-linecap: round;
-  filter: drop-shadow(0 0 3px rgba(255,255,255,0.45));
-  opacity: 1;
+  fill: none; stroke: url(#rgbflow); stroke-width: 5; stroke-linecap: round;
+  filter: drop-shadow(0 0 2px rgba(255,255,255,0.25));
+  opacity: 0.92;
 }
-/* Цветной ореол: широкая размытая копия той же радуги — даёт неоновое свечение */
+/* Цветной ореол: широкая размытая копия — мягкое свечение (приглушённое) */
 .tube-glow {
-  fill: none; stroke: url(#rgbflow); stroke-width: 20; stroke-linecap: round;
-  filter: blur(7px); opacity: 0.5;
+  fill: none; stroke: url(#rgbflow); stroke-width: 17; stroke-linecap: round;
+  filter: blur(7px); opacity: 0.32;
 }
 
 /* Перелив оттенка для HUD-углов и световой линии (им хватает одноцветного поворота) */
@@ -84,20 +84,30 @@ body {
   50%      { transform: scale(1.25); opacity: 1; }
 }
 
-/* ---------- ВЕНТИЛЯТОРЫ (вращающиеся крыльчатки) ---------- */
-.fan { transform-box: fill-box; transform-origin: center; }
-.fan--1 { animation: fanSpin 8s linear infinite; }
-.fan--2 { animation: fanSpin 5.5s linear infinite reverse; } /* второй крутится в другую сторону */
+/* ---------- ВЕНТИЛЯТОРЫ (как в реальном ПК) ---------- */
+/* крутится только крыльчатка (.fan-blades), рамка-кольцо статична — как у настоящего вентилятора */
+.fan-blades { transform-box: fill-box; transform-origin: center; }
+.fan--1 { animation: fanSpin 3.4s linear infinite; }
+.fan--2 { animation: fanSpin 2.6s linear infinite reverse; } /* другой скорости и в обратную сторону */
 @keyframes fanSpin { to { transform: rotate(360deg); } }
+
+/* светящаяся рамка-кольцо (LED фрейма) — медленно переливается в зелёно-голубой гамме сайта */
 .fan-ring {
-  fill: none; stroke: url(#rgbflow); stroke-width: 4; opacity: 0.55;
-  filter: drop-shadow(0 0 5px rgba(0,255,156,0.5));
+  fill: none; stroke: #00ffb4; stroke-width: 5;
+  animation: fanHue 11s ease-in-out infinite;
 }
-.fan use {
-  fill: rgba(0, 255, 156, 0.16);
-  stroke: url(#rgbflow); stroke-width: 1.5;
+.fan-ring-in { fill: none; stroke: rgba(0,255,180,0.30); stroke-width: 2; }
+@keyframes fanHue {
+  0%, 100% { filter: drop-shadow(0 0 5px rgba(0,255,170,0.45)) hue-rotate(-20deg); }
+  50%      { filter: drop-shadow(0 0 9px rgba(0,255,210,0.55)) hue-rotate(26deg); }
 }
-.fan-hub { fill: url(#rgbflow); }
+/* лопасти — полупрозрачные, слегка ловят свет (как у настоящей крыльчатки) */
+.fan-blades use {
+  fill: rgba(200,255,240,0.09);
+  stroke: rgba(120,255,210,0.26); stroke-width: 1;
+}
+.fan-hub { fill: #07261b; stroke: rgba(0,255,180,0.5); stroke-width: 2; }
+.fan-cap { fill: #00ffba; }
 
 /* Подсказка браузеру оптимизировать смещение фоновых слоёв (параллакс) */
 .tubes, .bgfx { will-change: transform; }
