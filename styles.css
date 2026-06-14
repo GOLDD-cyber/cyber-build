@@ -105,7 +105,13 @@ h1, h2, h3, h4 { font-family: 'Orbitron', sans-serif; line-height: 1.2; }
   background: linear-gradient(to bottom, transparent, #04140d);
 }
 /* canvas с matrix-дождём — на весь экран, за текстом */
-.hero__canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.45; }
+.hero__canvas {
+  position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.45;
+  /* Маска "растворяет" matrix-символы книзу: вверху видно полностью,
+     к низу плавно исчезают — поэтому переход на блок "Сборки" мягкий. */
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 92%);
+          mask-image: linear-gradient(to bottom, #000 55%, transparent 92%);
+}
 .hero__inner { position: relative; z-index: 2; padding: 80px 24px; }
 .hero__tag {
   color: var(--neon); font-family: 'Orbitron', sans-serif;
@@ -308,6 +314,9 @@ h1, h2, h3, h4 { font-family: 'Orbitron', sans-serif; line-height: 1.2; }
     linear-gradient(90deg, rgba(0,255,156,0.05) 1px, transparent 1px);
   background-size: 44px 44px;
   animation: gridScroll 7s linear infinite;
+  /* плавное затухание сетки сверху и снизу — чтобы стыки с соседними секциями были мягкими */
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
+          mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
 }
 @keyframes gridScroll { from { background-position: 0 0; } to { background-position: 44px 44px; } }
 
@@ -317,6 +326,9 @@ h1, h2, h3, h4 { font-family: 'Orbitron', sans-serif; line-height: 1.2; }
   background-image: radial-gradient(rgba(0,255,156,0.10) 2px, transparent 2px);
   background-size: 56px 56px;
   animation: dotsUp 9s linear infinite;
+  /* плавное затухание точек сверху и снизу */
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
+          mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
 }
 @keyframes dotsUp { from { background-position: 0 0; } to { background-position: 0 -56px; } }
 
